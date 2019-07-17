@@ -1,0 +1,182 @@
+<html>
+
+<head>
+	<title>Pattern marker example with Three.js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			text-align: center;
+			overflow-x: hidden;
+		}
+
+		.portrait canvas {
+			transform-origin: 0 0;
+			transform: rotate(-90deg) translateX(-100%);
+		}
+
+		.desktop canvas {
+			transform: scale(-1, 1);
+		}
+	</style>
+	<script src="js/third_party/three.js/three.min.js"></script>
+</head>
+
+<body>
+	<script async src="js/third_party/three.js/artoolkitNft.min.js"></script>
+	<!--<script src="../build/artoolkitNft.debug.js"></script>
+<script src="../js/artoolkit.api.js"></script>  ../js/artoolkit.three.js-->
+	<script async src="js/third_party/three.js/OBJLoader.js"></script>
+	<script async src="js/third_party/three.js/artoolkit.three.js"></script>
+
+	<script>
+
+		window.ARThreeOnLoad = function () {
+
+			ARController.getUserMediaThreeScene({
+				maxARVideoSize: 320, cameraParam: 'Data/camera_para.dat',
+				onSuccess: function (arScene, arController, arCamera) {
+
+					document.body.className = arController.orientation;
+
+					var renderer = new THREE.WebGLRenderer({ antialias: true });
+					if (arController.orientation === 'portrait') {
+						var w = (window.innerWidth / arController.videoHeight) * arController.videoWidth;
+						var h = window.innerWidth;
+						renderer.setSize(w, h);
+						renderer.domElement.style.paddingBottom = (w - h) + 'px';
+					} else {
+						if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
+							renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
+						} else {
+							renderer.setSize(arController.videoWidth * 2, arController.videoHeight * 2);
+							document.body.className += ' desktop';
+						}
+					}
+
+					document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+					var rotationV = 0;
+					var rotationTarget = 0;
+
+					renderer.domElement.addEventListener('click', function (ev) {
+						ev.preventDefault();
+						rotationTarget += 1;
+					}, false);
+
+					var sphere = new THREE.Mesh(
+						new THREE.SphereGeometry(0.5, 8, 8),
+						new THREE.MeshNormalMaterial()
+					);
+					sphere.material.flatShading;
+					sphere.position.z = 40;
+					sphere.position.x = 80;
+					sphere.position.y = 80;
+					sphere.scale.set(80, 80, 80);
+
+					var torus = new THREE.Mesh(
+						new THREE.TorusGeometry(0.3, 0.2, 8, 8),
+						new THREE.MeshNormalMaterial()
+					);
+					torus.material.shading = THREE.FlatShading;
+					torus.position.z = 0.5;
+					torus.rotation.x = Math.PI / 2;
+
+
+					var toroide = new THREE.Mesh(
+						new THREE.TorusGeometry(15, 10, 8, 12),
+						new THREE.MeshNormalMaterial()
+					);
+					toroide.material.shading = THREE.FlatShading;
+					toroide.position.z = 0.5;
+					toroide.position.x = 10;
+					toroide.position.y = 10;
+
+					toroide.rotation.x = 1.6;
+					//toroide.rotation.y = 1.6;
+					//toroide.rotation.z = 1.6;
+
+
+					arController.loadNFTMarker('DataNFT/pinball', function (markerId) {
+						var markerRoot = arController.createThreeNFTMarker(markerId);
+						markerRoot.add(sphere);
+						arScene.scene.add(markerRoot);
+					});
+
+					arController.loadMarker('Data/patt.hiro', function (markerId) {
+						var markerRoot = arController.createThreeMarker(markerId);
+						markerRoot.add(torus);
+						arScene.scene.add(markerRoot);
+					});
+
+					arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
+						var markerRoot = arController.createThreeNFTMarker(markerId);
+						markerRoot.add(toroide);
+						arScene.scene.add(markerRoot);
+
+						// var OBJFile = 'Data/model.obj';
+						// var MTLFile = 'Data/model.mtl';
+						// var JPGFile = 'Data/model.jpg';
+
+						// var loader = new THREE.OBJLoader();
+
+						// // load a resource
+						// loader.load(
+						// 	// resource URL
+						// 	OBJFile,
+						// 	// called when resource is loaded
+						// 	function (object) {
+						// 		markerRoot.add(object);
+						// 		arScene.scene.add(markerRoot);
+
+
+						// 	},
+						// 	// called when loading is in progresses
+						// 	function (xhr) {
+						// 	},
+						// 	// called when loading has errors
+						// 	function (error) {
+						// 		console.warn('An error happened');
+						// 	}
+						// );
+					});
+
+					var tick = function () {
+						arScene.process();
+
+						//arController.getNFTMarker(0);
+
+						rotationV += (rotationTarget - sphere.rotation.z) * 0.05;
+						sphere.rotation.z += rotationV;
+						torus.rotation.y += rotationV;
+						toroide.rotation.y += rotationV;
+
+						rotationV *= 0.8;
+
+						//console.log(renderer)
+
+						arScene.renderOn(renderer);
+						requestAnimationFrame(tick);
+						rotationTarget +=0.09;
+					};
+
+					tick();
+
+				}
+			});
+
+			delete window.ARThreeOnLoad;
+
+		};
+
+		if (window.ARController && ARController.getUserMediaThreeScene) {
+			ARThreeOnLoad();
+		}
+	</script>
+
+</body>
+
+</html>
