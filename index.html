@@ -112,38 +112,44 @@
 						arScene.scene.add(markerRoot);
 					});
 
-					arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
-						console.log(markerId)
-						var markerRoot = arController.createThreeNFTMarker(markerId);
-						markerRoot.add(toroide);
+					arController.loadMarker('Data/cafe.patt', function (markerId) {
+						var markerRoot = arController.createThreeMarker(markerId);
+						markerRoot.add(torus);
 						arScene.scene.add(markerRoot);
-
-						var OBJFile = 'Data/model.obj';
-						// var MTLFile = 'Data/model.mtl';
-						// var JPGFile = 'Data/model.jpg';
-
-						// var loader = new THREE.OBJLoader();
-
-						// // load a resource
-						// loader.load(
-						// 	// resource URL
-						// 	OBJFile,
-						// 	// called when resource is loaded
-						// 	function (object) {
-						// 		markerRoot.add(object);
-						// 		arScene.scene.add(markerRoot);
-
-
-						// 	},
-						// 	// called when loading is in progresses
-						// 	function (xhr) {
-						// 	},
-						// 	// called when loading has errors
-						// 	function (error) {
-						// 		console.warn('An error happened');
-						// 	}
-						// );
 					});
+
+					// arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
+					// 	console.log(markerId)
+					// 	var markerRoot = arController.createThreeNFTMarker(markerId);
+					// 	markerRoot.add(toroide);
+					// 	arScene.scene.add(markerRoot);
+
+					// 	var OBJFile = 'Data/model.obj';
+					// 	// var MTLFile = 'Data/model.mtl';
+					// 	// var JPGFile = 'Data/model.jpg';
+
+					// 	// var loader = new THREE.OBJLoader();
+
+					// 	// // load a resource
+					// 	// loader.load(
+					// 	// 	// resource URL
+					// 	// 	OBJFile,
+					// 	// 	// called when resource is loaded
+					// 	// 	function (object) {
+					// 	// 		markerRoot.add(object);
+					// 	// 		arScene.scene.add(markerRoot);
+
+
+					// 	// 	},
+					// 	// 	// called when loading is in progresses
+					// 	// 	function (xhr) {
+					// 	// 	},
+					// 	// 	// called when loading has errors
+					// 	// 	function (error) {
+					// 	// 		console.warn('An error happened');
+					// 	// 	}
+					// 	// );
+					// });
 
 					var tick = function () {
 						arScene.process();
