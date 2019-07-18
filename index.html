@@ -112,18 +112,12 @@
 						arScene.scene.add(markerRoot);
 					});
 
-					arController.loadMarker('Data/cafe.patt', function (markerId) {
-						console.log(markerId);
-						var markerRoot = arController.createThreeMarker(markerId);
-						markerRoot.add(torus);
-						arScene.scene.add(markerRoot);
-					});
 
-					// arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
+					 arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
 					// 	console.log(markerId)
-					// 	var markerRoot = arController.createThreeNFTMarker(markerId);
-					// 	markerRoot.add(toroide);
-					// 	arScene.scene.add(markerRoot);
+					 	var markerRoot = arController.createThreeNFTMarker(markerId);
+					 	markerRoot.add(toroide);
+					 	arScene.scene.add(markerRoot);
 
 					// 	var OBJFile = 'Data/model.obj';
 					// 	// var MTLFile = 'Data/model.mtl';
@@ -150,7 +144,7 @@
 					// 	// 		console.warn('An error happened');
 					// 	// 	}
 					// 	// );
-					// });
+					 });
 
 					var tick = function () {
 						arScene.process();
