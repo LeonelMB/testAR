@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>Pattern marker example with Three.js</title>
+	<title>AR TEST NFT</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 	<style>
 		html,
@@ -113,6 +113,7 @@
 					});
 
 					arController.loadNFTMarker('DataNFT/cafe', function (markerId) {
+						console.log(markerId)
 						var markerRoot = arController.createThreeNFTMarker(markerId);
 						markerRoot.add(toroide);
 						arScene.scene.add(markerRoot);
