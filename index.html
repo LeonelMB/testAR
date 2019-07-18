@@ -113,6 +113,7 @@
 					});
 
 					arController.loadMarker('Data/cafe.patt', function (markerId) {
+						console.log(markerId);
 						var markerRoot = arController.createThreeMarker(markerId);
 						markerRoot.add(torus);
 						arScene.scene.add(markerRoot);
